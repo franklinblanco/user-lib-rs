@@ -16,3 +16,6 @@ pub async fn update_token(conn: &PgPool, token_id: &i32, auth_token: String) -> 
         .bind(token_id).bind(auth_token).bind(Utc::now())
         .fetch_one(conn).await
 }
+// TODO: add validate_user token (user_id, auth_token)
+// Update user token (refresh_token, user_id)
+// Delete user token (token_id)
