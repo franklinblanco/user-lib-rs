@@ -1,14 +1,20 @@
-pub struct UsernameUserLoginPayload {
-    pub username: String,
+use serde::{Deserialize, Serialize};
+use crate::domain::credential::CredentialType;
+use crate::dto::credential::CredentialDto;
+
+/// Used for logging in when you don't have a token.
+#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[serde(rename_all = "camelCase")]
+pub struct UserLoginPayload {
+    pub credential: String,
+    pub credential_type: CredentialType,
     pub password: String,
 }
 
-pub struct EmailUserLoginPayload {
-    pub email: String,
+#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[serde(rename_all = "camelCase")]
+pub struct UserRegisterPayload {
+    pub credentials: Vec<CredentialDto>,
     pub password: String,
-}
-
-pub struct PhoneNumberUserLoginPayload {
-    pub phone_number: String,
-    pub password: String,
+    pub name: String,
 }

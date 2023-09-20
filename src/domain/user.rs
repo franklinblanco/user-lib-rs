@@ -2,8 +2,6 @@ use chrono::{DateTime, Utc};
 use serde::{Serialize, Deserialize};
 use sqlx::FromRow;
 
-use super::credential::CredentialType;
-
 #[derive(FromRow)]
 #[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct User {
