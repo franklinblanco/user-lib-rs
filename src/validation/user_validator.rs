@@ -33,7 +33,7 @@ fn validate_user_password(password: &String) -> bool {
     password.len() >= MIN_PASSWORD_LENGTH.into() && password.len() <= MAX_PASSWORD_LENGTH.into()
 }
 
-pub fn validate_user_for_creation(
+pub(crate) fn validate_user_for_creation(
     user: &UserRegisterPayload,
     error_resources: &mut Vec<ErrorResource>,
 ) {
@@ -64,7 +64,7 @@ pub fn validate_user_for_creation(
         error_resources.push(ERROR_INVALID_PASSWORD);
     }
 }
-pub fn validate_user_for_password_authentication(
+pub(crate) fn validate_user_for_password_authentication(
     user: &UserLoginPayload,
     error_resources: &mut Vec<ErrorResource>,
 ) {

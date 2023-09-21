@@ -66,6 +66,11 @@ pub const ERROR_TOO_MANY_CREDENTIALS: (&str, &str) = (
     "Only up to 3 credentials are allowed. One of each type.",
 );
 
+pub const ERROR_CREDENTIAL_DOES_NOT_EXIST: (&str, &str) = (
+    "ERROR.CREDENTIAL_DOES_NOT_EXIST",
+    "Credential specified does not exist.",
+);
+
 pub const ERROR_TOKEN_NOT_CREATED: (&str, &str) = (
     "ERROR.TOKEN_NOT_CREATED",
     "Token futures were joined but not created correctly.",
