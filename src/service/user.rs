@@ -180,3 +180,8 @@ pub async fn authenticate_user(db_conn: &sqlx::PgPool, user: AuthenticateUserDto
     }
 }
 
+pub async fn refresh_auth_token() {}
+
+pub async fn reset_password() {}
+
+pub async fn password_login() {}
