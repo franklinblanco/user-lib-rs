@@ -2,7 +2,7 @@ use std::error::Error;
 use chrono::Utc;
 use log::{error, log};
 use tokio::task::JoinError;
-use crate::dao::credential::get_credential;
+use crate::dao::credential::{get_credential, insert_credentials};
 use crate::dao::token::insert_token;
 use crate::dao::user::insert_user;
 use crate::domain::credential::Credential;
@@ -50,7 +50,7 @@ pub async fn register_user(db_conn: &sqlx::PgPool, user: UserRegisterPayload) ->
     //  Get salt and hashed password from hashing function then give the results to the user
     let hash_result = hash_password(&user.password);
     let now = Utc::now();
-    let mut user_to_insert = User {
+    let user_to_insert = User {
         id: 0,
         name: user.name,
         password: hash_result.hash,
@@ -72,8 +72,18 @@ pub async fn register_user(db_conn: &sqlx::PgPool, user: UserRegisterPayload) ->
             return Err(error_resources);
         }};
 
+    // Insert Credentials
+    match insert_credentials(db_conn, user.credentials, &persisted_user.id).await {
+        Ok(_) => {}
+        Err(e) => {
+            error!("{}", e);
+            error_resources.push(("ERROR.DATABASE_ERROR", ""));
+            return Err(error_resources);
+        }
+    };
+
     //  Create token and send it back.
-    let mut tokens: Vec<String> = match generate_multiple_random_token_with_rng(2).await {
+    let tokens: Vec<String> = match generate_multiple_random_token_with_rng(2).await {
         Ok(tokens) => tokens,
         Err(e) => {
             error!("{}", e);
@@ -81,7 +91,7 @@ pub async fn register_user(db_conn: &sqlx::PgPool, user: UserRegisterPayload) ->
             return Err(error_resources);
         }
     };
-    let mut token_to_insert =
+    let token_to_insert =
         Token {
             id: 0,
             user_id: persisted_user.id,
