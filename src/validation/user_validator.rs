@@ -17,14 +17,14 @@ fn validate_user_email(email: &String) -> bool {
         && email.contains('@')
         && email.contains('.')
 }
-fn validate_user_phone_number(email: &String) -> bool {
-    email.len() >= CredentialType::get_max_length(&CredentialType::PhoneNumber)
-        && email.len() <= CredentialType::get_min_length(&CredentialType::PhoneNumber)
+fn validate_user_phone_number(phone_number: &String) -> bool {
+    phone_number.len() <= CredentialType::get_max_length(&CredentialType::PhoneNumber)
+        && phone_number.len() >= CredentialType::get_min_length(&CredentialType::PhoneNumber)
 }
 
 fn validate_user_username(username: &String) -> bool {
-    username.len() >= CredentialType::get_max_length(&CredentialType::PhoneNumber)
-        && username.len() <= CredentialType::get_min_length(&CredentialType::PhoneNumber)
+    username.len() >= CredentialType::get_max_length(&CredentialType::Username)
+        && username.len() <= CredentialType::get_min_length(&CredentialType::Username)
 }
 fn validate_user_name(name: &String) -> bool {
     name.len() >= MIN_NAME_LENGTH.into() && name.len() <= MAX_NAME_LENGTH.into()

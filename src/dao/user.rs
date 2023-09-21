@@ -1,10 +1,10 @@
 use crate::domain::user::User;
-use sqlx::{query_as, query_as_with, PgPool};
+use sqlx::{PgConnection, PgPool, Postgres, Transaction};
 
-pub async fn insert_user(conn: &PgPool, user: User) -> Result<User, sqlx::Error> {
+pub async fn insert_user(conn: &mut PgConnection, user: User) -> Result<User, sqlx::Error> {
     sqlx::query_as(
         r#"
-    INSERT INTO user (name, password, salt, time_created, last_updated)
+    INSERT INTO "user" (name, password, salt, time_created, last_updated)
     VALUES ($1, $2, $3, $4, $4) RETURNING *;
     "#,
     )
@@ -16,10 +16,10 @@ pub async fn insert_user(conn: &PgPool, user: User) -> Result<User, sqlx::Error>
     .await
 }
 
-pub async fn get_user_with_id(conn: &PgPool, user_id: &i32) -> Result<Option<User>, sqlx::Error> {
+pub async fn get_user_with_id(conn: &mut PgConnection, user_id: &i32) -> Result<Option<User>, sqlx::Error> {
     sqlx::query_as(
         r#"
-    SELECT * FROM user where id = $1;
+    SELECT * FROM "user" where id = $1;
     "#,
     )
     .bind(user_id)
@@ -27,10 +27,10 @@ pub async fn get_user_with_id(conn: &PgPool, user_id: &i32) -> Result<Option<Use
     .await
 }
 
-pub async fn update_user(conn: &PgPool, user: User) -> Result<User, sqlx::Error> {
+pub async fn update_user(conn: &mut PgConnection, user: User) -> Result<User, sqlx::Error> {
     sqlx::query_as(
         r#"
-    UPDATE user SET
+    UPDATE "user" SET
     name = $2, password = $3, salt = $4, last_updated = $5
     WHERE id = $1 RETURNING *;
     "#,
@@ -44,10 +44,10 @@ pub async fn update_user(conn: &PgPool, user: User) -> Result<User, sqlx::Error>
     .await
 }
 
-pub async fn delete_user(conn: &PgPool, user_id: &i32) -> Result<Option<User>, sqlx::Error> {
+pub async fn delete_user(conn: &mut PgConnection, user_id: &i32) -> Result<Option<User>, sqlx::Error> {
     sqlx::query_as(
         r#"
-    DELETE FROM user where id = $1 RETURNING *;
+    DELETE FROM "user" where id = $1 RETURNING *;
     "#,
     )
     .bind(user_id)

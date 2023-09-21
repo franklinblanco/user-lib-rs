@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS credential (
+CREATE TABLE IF NOT EXISTS "credential" (
     user_id INT NOT NULL,
     credential_type VARCHAR NOT NULL,
     credential VARCHAR NOT NULL,

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS token (
+CREATE TABLE IF NOT EXISTS "token" (
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   auth_token TEXT NOT NULL,
