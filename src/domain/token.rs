@@ -1,10 +1,10 @@
 use chrono::{DateTime, Utc};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 
-
-#[derive(FromRow)]
-#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(
+    FromRow, Serialize, Deserialize, Clone, Debug, Default, PartialEq, Eq, PartialOrd, Ord,
+)]
 pub struct Token {
     #[serde(skip_serializing, skip_deserializing)]
     pub id: i32,

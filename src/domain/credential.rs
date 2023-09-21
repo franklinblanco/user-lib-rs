@@ -1,8 +1,10 @@
+use crate::resources::variable_lengths::{
+    MAX_EMAIL_LENGTH, MAX_NAME_LENGTH, MAX_PHONE_NUMBER_LENGTH, MAX_USERNAME_LENGTH,
+    MIN_EMAIL_LENGTH, MIN_PHONE_NUMBER_LENGTH, MIN_USERNAME_LENGTH,
+};
 use chrono::{DateTime, Utc};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
-use crate::resources::variable_lengths::{MAX_EMAIL_LENGTH, MAX_NAME_LENGTH, MAX_PHONE_NUMBER_LENGTH, MAX_USERNAME_LENGTH, MIN_EMAIL_LENGTH, MIN_PHONE_NUMBER_LENGTH, MIN_USERNAME_LENGTH};
-
 
 /// Is used in the user struct to signal what type of credential will be used in the credential Column.
 /// Defaults to email.
@@ -15,7 +17,9 @@ pub enum CredentialType {
 }
 
 /// Can only have one per user per cred_type
-#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, FromRow)]
+#[derive(
+    Serialize, Deserialize, Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, FromRow,
+)]
 #[serde(rename_all = "camelCase")]
 pub struct Credential {
     pub user_id: i32,

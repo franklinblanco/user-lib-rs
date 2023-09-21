@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::domain::credential::CredentialType;
 use crate::dto::credential::CredentialDto;
+use serde::{Deserialize, Serialize};
 
 /// Used for logging in when you don't have a token.
 #[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]

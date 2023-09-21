@@ -1,2 +1,2 @@
-mod user;
 mod token;
+mod user;

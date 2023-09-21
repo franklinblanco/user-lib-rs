@@ -1,6 +1,11 @@
-use std::{str::FromStr, fmt::Display};
+use std::{fmt::Display, str::FromStr};
 
-use sqlx::{Postgres, postgres::{PgValueRef, PgArgumentBuffer, PgTypeInfo}, error::BoxDynError, encode::IsNull};
+use sqlx::{
+    encode::IsNull,
+    error::BoxDynError,
+    postgres::{PgArgumentBuffer, PgTypeInfo, PgValueRef},
+    Postgres,
+};
 
 use crate::domain::{credential::CredentialType, error::FromStrError};
 
@@ -12,7 +17,7 @@ impl FromStr for CredentialType {
             "PhoneNumber" => Ok(Self::PhoneNumber),
             "Email" => Ok(Self::Email),
             "Username" => Ok(Self::Username),
-            _ => Err(FromStrError)
+            _ => Err(FromStrError),
         }
     }
 }

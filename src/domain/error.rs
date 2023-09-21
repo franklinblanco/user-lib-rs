@@ -1,6 +1,5 @@
 use std::fmt::Display;
 
-
 /// Used to return a simple error from FromStr implementations
 #[derive(Debug)]
 pub struct FromStrError;

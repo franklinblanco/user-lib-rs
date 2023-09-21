@@ -1,4 +1,3 @@
-
 pub const MIN_EMAIL_LENGTH: usize = 4;
 pub const MAX_EMAIL_LENGTH: usize = 254;
 
