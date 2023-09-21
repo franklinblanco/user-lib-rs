@@ -1,1 +1,1 @@
-mod hasher;
+pub mod hasher;
