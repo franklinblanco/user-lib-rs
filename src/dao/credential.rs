@@ -32,3 +32,10 @@ pub async fn fetch_user_credentials(
 ) -> Result<Vec<Credential>, Error> {
     sqlx::query_as(r#"SELECT user_id, credential_type as "credential_type: _", credential, validated, time_created, last_updated FROM credential WHERE user_id = $1 "#).bind(user_id).fetch_all(conn).await
 }
+
+pub async fn get_credential(
+    conn: &PgPool,
+    credential: String,
+) -> Result<Option<Credential>, Error> {
+    sqlx::query_as(r#"SELECT user_id, credential_type as "credential_type: _", credential, validated, time_created, last_updated FROM credential WHERE credential = $1"#).bind(credential).fetch_optional(conn).await
+}

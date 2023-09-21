@@ -9,7 +9,9 @@ use tokio::task::JoinError;
 
 const SALT_ROUNDS: u32 = 1000;
 
-pub async fn generate_multiple_random_token_with_rng(amount: u8) -> Result<Vec<String>, JoinError> {
+pub(crate) async fn generate_multiple_random_token_with_rng(
+    amount: u8,
+) -> Result<Vec<String>, JoinError> {
     //  Get a new instance of a Random Number Generator
     let rng = SystemRandom::new();
 
@@ -20,7 +22,7 @@ pub async fn generate_multiple_random_token_with_rng(amount: u8) -> Result<Vec<S
         let future_token = async move {
             let mut token_arr = [0u8; digest::SHA512_OUTPUT_LEN];
             match cloned_rng.fill(&mut token_arr) {
-                Ok(()) => BASE64.encode(&token_arr), //TODO: Remove this panic, make your own error and fix this
+                Ok(()) => BASE64.encode(&token_arr),
                 Err(_e) => {
                     panic!("Failed to generate random token for some reason.")
                 }
@@ -42,7 +44,10 @@ pub async fn generate_multiple_random_token_with_rng(amount: u8) -> Result<Vec<S
     Ok(all_tokens_solved)
 }
 
-pub fn hash_password_with_existing_salt(password: &String, input_salt: &String) -> HashResult {
+pub(crate) fn hash_password_with_existing_salt(
+    password: &String,
+    input_salt: &String,
+) -> HashResult {
     //  Get output length from a sha512 hash
     const CREDENTIAL_LEN: usize = digest::SHA512_OUTPUT_LEN;
     let n_iter = NonZeroU32::new(SALT_ROUNDS).unwrap();
@@ -65,7 +70,7 @@ pub fn hash_password_with_existing_salt(password: &String, input_salt: &String) 
     HashResult::new(BASE64.encode(&salt), BASE64.encode(&pbkdf2_hash))
 }
 
-pub fn hash_password(password: &String) -> HashResult {
+pub(crate) fn hash_password(password: &String) -> HashResult {
     //  Get output length from a sha512 hash
     const CREDENTIAL_LEN: usize = digest::SHA512_OUTPUT_LEN;
     let n_iter = NonZeroU32::new(SALT_ROUNDS).unwrap();

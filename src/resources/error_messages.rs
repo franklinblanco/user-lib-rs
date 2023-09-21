@@ -26,7 +26,7 @@ pub const ERROR_INVALID_PASSWORD: (&str, &str) = (
 
 pub const ERROR_USER_ALREADY_EXISTS: (&str, &str) = (
     "ERROR.USER_ALREADY_EXISTS",
-    "A user with that email already exists.",
+    "A user with that credential already exists.",
 );
 
 pub const ERROR_USER_DOES_NOT_EXIST: (&str, &str) = (
@@ -59,4 +59,9 @@ pub const ERROR_EXPIRED_TOKEN: (&str, &str) = (
 pub const ERROR_CREATING_TOKEN: (&str, &str) = (
     "ERROR.CREATING_TOKEN",
     "The server had an error creating the auth tokens.",
+);
+
+pub const ERROR_TOO_MANY_CREDENTIALS: (&str, &str) = (
+    "ERROR.TOO_MANY_CREDENTIALS",
+    "Only up to 3 credentials are allowed. One of each type.",
 );

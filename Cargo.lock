@@ -1609,6 +1609,7 @@ dependencies = [
  "chrono",
  "data-encoding",
  "futures-util",
+ "log",
  "ring",
  "serde",
  "sqlx",
