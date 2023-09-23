@@ -38,23 +38,7 @@ pub(crate) fn validate_user_for_creation(
     error_resources: &mut Vec<ErrorResource>,
 ) {
     for credential_dto in user.credentials.iter() {
-        match credential_dto.credential_type {
-            CredentialType::Email => {
-                if !validate_user_email(&credential_dto.credential) {
-                    error_resources.push(ERROR_INVALID_EMAIL);
-                }
-            }
-            CredentialType::PhoneNumber => {
-                if !validate_user_phone_number(&credential_dto.credential) {
-                    error_resources.push(ERROR_INVALID_PHONE_NUMBER);
-                }
-            }
-            CredentialType::Username => {
-                if !validate_user_username(&credential_dto.credential) {
-                    error_resources.push(ERROR_INVALID_USERNAME);
-                }
-            }
-        };
+        validate_credential(error_resources, &credential_dto.credential, &credential_dto.credential_type);
     }
 
     if !validate_user_name(&user.name) {
@@ -68,24 +52,28 @@ pub(crate) fn validate_user_for_password_authentication(
     user: &UserLoginPayload,
     error_resources: &mut Vec<ErrorResource>,
 ) {
-    match user.credential_type {
+    validate_credential(error_resources, &user.credential, &user.credential_type);
+    if !validate_user_password(&user.password) {
+        error_resources.push(ERROR_INVALID_PASSWORD);
+    }
+}
+
+fn validate_credential(error_resources: &mut Vec<ErrorResource>, credential: &String, credential_type: &CredentialType) {
+    match credential_type {
         CredentialType::Email => {
-            if !validate_user_email(&user.credential) {
+            if !validate_user_email(credential) {
                 error_resources.push(ERROR_INVALID_EMAIL);
             }
         }
         CredentialType::PhoneNumber => {
-            if !validate_user_phone_number(&user.credential) {
+            if !validate_user_phone_number(credential) {
                 error_resources.push(ERROR_INVALID_PHONE_NUMBER);
             }
         }
         CredentialType::Username => {
-            if !validate_user_username(&user.credential) {
+            if !validate_user_username(credential) {
                 error_resources.push(ERROR_INVALID_USERNAME);
             }
         }
-    }
-    if !validate_user_password(&user.password) {
-        error_resources.push(ERROR_INVALID_PASSWORD);
     }
 }

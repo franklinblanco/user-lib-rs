@@ -44,6 +44,7 @@ pub(crate) async fn update_user(conn: &mut PgConnection, user: User) -> Result<U
     .await
 }
 
+#[allow(unused)]
 pub(crate) async fn delete_user(conn: &mut PgConnection, user_id: &i32) -> Result<Option<User>, sqlx::Error> {
     sqlx::query_as(
         r#"

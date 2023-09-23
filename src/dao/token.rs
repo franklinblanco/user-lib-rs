@@ -1,6 +1,6 @@
 use crate::domain::token::Token;
 use chrono::Utc;
-use sqlx::{Error, PgConnection, PgPool};
+use sqlx::{Error, PgConnection};
 
 pub(crate) async fn insert_token(conn: &mut PgConnection, token: Token) -> Result<Token, Error> {
     sqlx::query_as(r#"INSERT INTO token (
@@ -11,16 +11,14 @@ pub(crate) async fn insert_token(conn: &mut PgConnection, token: Token) -> Resul
 
 pub(crate) async fn update_token(
     conn: &mut PgConnection,
-    token_id: &i32,
     refresh_token: String,
     new_auth_token: String,
 ) -> Result<Token, Error> {
     sqlx::query_as(
         r#"UPDATE token set
     auth_token = $3, last_updated = $4
-    WHERE id = $1 AND refresh_token = $2 RETURNING *;"#,
+    WHERE refresh_token = $1 RETURNING *;"#,
     )
-    .bind(token_id)
     .bind(refresh_token)
     .bind(new_auth_token)
     .bind(Utc::now())
@@ -28,6 +26,7 @@ pub(crate) async fn update_token(
     .await
 }
 
+#[allow(unused)]
 pub(crate) async fn remove_token(conn: &mut PgConnection, token_id: &i32) -> Result<Option<Token>, Error> {
     sqlx::query_as(r#"DELETE FROM token WHERE id = $1 RETURNING *;"#)
         .bind(token_id)

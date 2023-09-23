@@ -1,7 +1,7 @@
 use crate::domain::credential::Credential;
 use crate::dto::credential::CredentialDto;
 use chrono::Utc;
-use sqlx::{Error, PgConnection, PgPool};
+use sqlx::{Error, PgConnection};
 
 pub(crate) async fn insert_credential(
     conn: &mut PgConnection,

@@ -18,3 +18,11 @@ pub struct UserRegisterPayload {
     pub password: String,
     pub name: String,
 }
+
+#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[serde(rename_all = "camelCase")]
+pub struct UserResetPasswordPayload {
+    pub id: i32,
+    pub password: String,
+    pub new_password: String,
+}
