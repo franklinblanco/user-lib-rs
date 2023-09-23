@@ -27,7 +27,10 @@ pub(crate) async fn update_token(
 }
 
 #[allow(unused)]
-pub(crate) async fn remove_token(conn: &mut PgConnection, token_id: &i32) -> Result<Option<Token>, Error> {
+pub(crate) async fn remove_token(
+    conn: &mut PgConnection,
+    token_id: &i32,
+) -> Result<Option<Token>, Error> {
     sqlx::query_as(r#"DELETE FROM token WHERE id = $1 RETURNING *;"#)
         .bind(token_id)
         .fetch_optional(conn)

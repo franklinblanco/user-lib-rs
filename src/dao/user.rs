@@ -16,7 +16,10 @@ pub(crate) async fn insert_user(conn: &mut PgConnection, user: User) -> Result<U
     .await
 }
 
-pub(crate) async fn get_user_with_id(conn: &mut PgConnection, user_id: &i32) -> Result<Option<User>, sqlx::Error> {
+pub(crate) async fn get_user_with_id(
+    conn: &mut PgConnection,
+    user_id: &i32,
+) -> Result<Option<User>, sqlx::Error> {
     sqlx::query_as(
         r#"
     SELECT * FROM "user" where id = $1;
@@ -45,7 +48,10 @@ pub(crate) async fn update_user(conn: &mut PgConnection, user: User) -> Result<U
 }
 
 #[allow(unused)]
-pub(crate) async fn delete_user(conn: &mut PgConnection, user_id: &i32) -> Result<Option<User>, sqlx::Error> {
+pub(crate) async fn delete_user(
+    conn: &mut PgConnection,
+    user_id: &i32,
+) -> Result<Option<User>, sqlx::Error> {
     sqlx::query_as(
         r#"
     DELETE FROM "user" where id = $1 RETURNING *;

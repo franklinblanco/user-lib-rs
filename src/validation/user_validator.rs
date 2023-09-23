@@ -38,7 +38,11 @@ pub(crate) fn validate_user_for_creation(
     error_resources: &mut Vec<ErrorResource>,
 ) {
     for credential_dto in user.credentials.iter() {
-        validate_credential(error_resources, &credential_dto.credential, &credential_dto.credential_type);
+        validate_credential(
+            error_resources,
+            &credential_dto.credential,
+            &credential_dto.credential_type,
+        );
     }
 
     if !validate_user_name(&user.name) {
@@ -58,7 +62,11 @@ pub(crate) fn validate_user_for_password_authentication(
     }
 }
 
-fn validate_credential(error_resources: &mut Vec<ErrorResource>, credential: &String, credential_type: &CredentialType) {
+fn validate_credential(
+    error_resources: &mut Vec<ErrorResource>,
+    credential: &String,
+    credential_type: &CredentialType,
+) {
     match credential_type {
         CredentialType::Email => {
             if !validate_user_email(credential) {
