@@ -1,7 +1,7 @@
-use std::future::Future;
+
 use chrono::Utc;
 use log::{debug, error};
-use sqlx::{Error, PgConnection, Postgres, Transaction};
+use sqlx::{PgConnection, Postgres, Transaction};
 use crate::dao::credential::{fetch_user_credentials, get_credential, insert_credential};
 use crate::dao::token::{insert_token, update_token, validate_user_token};
 use crate::dao::user::{get_user_with_id, insert_user, update_user};
@@ -138,7 +138,7 @@ pub async fn authenticate_user<'a>(conn: &mut PgConnection, user: AuthenticateUs
 ///
 pub async fn refresh_auth_token<'a>(conn: &mut PgConnection, user: RefreshAuthTokenForUserDto) -> Result<Token, Vec<ErrorResource>> {
     let mut error_resources = Vec::new();
-    let persisted_user = match get_user_with_id(conn, &user.id).await {
+    let _persisted_user = match get_user_with_id(conn, &user.id).await {
         Ok(persisted_user_opt) => match persisted_user_opt {
             None => {
                 error_resources.push(ERROR_USER_DOES_NOT_EXIST);
